@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,27 +11,39 @@ namespace Common.Builders
 {
     public class WindowsTokenBuilder : ITokenBuilder
     {
-        public async Task<string> Build(IEnumerable<IHardwareIDProvider> providers)
+        public string Build(IEnumerable<IHardwareIDProvider<IHardwareEntity>> providers)
         {
-            byte[] bytes;
-            byte[] hashedBytes;
-            var sb = new StringBuilder();
-
-            Task task = Task.Run(() =>
+            try
             {
+                byte[] bytes;
+                byte[] hashedBytes;
+                var sb = new StringBuilder();
+
                 foreach (var provider in providers)
                 {
-                    sb.Append(provider.ReturnHardwareID());
-
+                    var identifier = provider.ReturnHardwareID();
+                    Console.WriteLine($"{provider.Entity.ManagmentEntityID} / {provider.Entity.EntityKey}: {identifier}|");
+                    sb.Append(identifier);
                 }
-            });
 
-            Task.WaitAll(task);
+                bytes = Encoding.UTF8.GetBytes(sb.ToString());
 
-            bytes = Encoding.UTF8.GetBytes(sb.ToString());
-            hashedBytes = SHA256.Create().ComputeHash(bytes);
+                using (SHA256 sha256 = SHA256.Create())
+                {
+                    hashedBytes = sha256.ComputeHash(bytes);
+                }
 
-            return await Task.FromResult(Convert.ToBase64String(hashedBytes));
+                return Convert.ToBase64String(hashedBytes);
+            }
+            catch (ManagementException mex)
+            {
+                throw mex;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
