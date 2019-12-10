@@ -2,3 +2,4 @@
 System.Management.4.7.0
 Debug
 /.vs
+*.cache
