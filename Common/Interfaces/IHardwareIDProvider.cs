@@ -1,10 +1,7 @@
 ﻿namespace Common.Interfaces
 {
-    public interface IHardwareIdProvider<TEntity>
-        where TEntity : IHardwareEntity
+    public interface IHardwareIdProvider
     {
-        TEntity Entity { get; }
-
         string FetchHardwareId();
     }
 }

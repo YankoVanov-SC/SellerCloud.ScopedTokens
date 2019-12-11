@@ -16,11 +16,11 @@ namespace Sample
         {
             while (true)
             {
-                Main2();
+                DumpToken();
             }
         }
 
-        static void Main2()
+        static void DumpToken()
         {
             var titile = @"
    _____                           __   ______      __            
@@ -48,7 +48,7 @@ namespace Sample
                 Console.WriteLine("Entities");
                 Console.WriteLine(new string('-', 20));
 
-                var scoped_token = wb.Build(new List<IHardwareIdProvider<IHardwareEntity>>() { hardwareProvider, processorProvider, biosProvider });
+                var scoped_token = wb.Build(new List<IHardwareIdProvider>() { hardwareProvider, processorProvider, biosProvider });
 
                 Console.WriteLine(new string('-', 20));
                 Console.ForegroundColor = ConsoleColor.Green;

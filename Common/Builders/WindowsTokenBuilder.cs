@@ -12,7 +12,7 @@ namespace Common.Builders
 {
     public class WindowsTokenBuilder : ITokenBuilder
     {
-        public string Build(IEnumerable<IHardwareIdProvider<IHardwareEntity>> providers)
+        public string Build(IEnumerable<IHardwareIdProvider> providers)
         {
             try
             {
@@ -20,12 +20,16 @@ namespace Common.Builders
                 byte[] hashedBytes;
                 var sb = new StringBuilder();
 
-                // TODO: Use AsParallel()?
-                foreach (var provider in providers)
+                var pieces = providers
+                    .AsParallel()
+                    .AsOrdered()
+                    .Select(provider => new { Provider = provider, Identifier = provider.FetchHardwareId() })
+                    .ToList();
+
+                foreach (var piece in pieces)
                 {
-                    var identifier = provider.FetchHardwareId();
-                    Console.WriteLine($"{provider.Entity.ManagmentEntityId} / {provider.Entity.EntityKey}: {identifier}");
-                    sb.Append(identifier);
+                    Console.WriteLine($"{piece.Provider}: {piece.Identifier}");
+                    sb.Append(piece.Identifier);
                 }
 
                 // TODO: Remove this and related duplicates, replace with string.Sha256() extension method

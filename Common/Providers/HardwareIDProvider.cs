@@ -42,5 +42,10 @@ namespace HardwareGenerator.Providers
                 throw ex;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{this.Entity.ManagmentEntityId} / {this.Entity.EntityKey}";
+        }
     }
 }
