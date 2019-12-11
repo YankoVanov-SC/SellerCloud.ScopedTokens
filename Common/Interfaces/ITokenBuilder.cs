@@ -4,6 +4,6 @@ namespace Common.Interfaces
 {
     public interface ITokenBuilder
     {
-        string Build(IEnumerable<IHardwareIDProvider<IHardwareEntity>> providers);
+        string Build(IEnumerable<IHardwareIdProvider<IHardwareEntity>> providers);
     }
 }

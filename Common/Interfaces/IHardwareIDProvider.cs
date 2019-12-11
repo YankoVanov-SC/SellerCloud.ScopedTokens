@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-
-namespace Common.Interfaces
+﻿namespace Common.Interfaces
 {
-    public interface IHardwareIDProvider<TEntity>
+    public interface IHardwareIdProvider<TEntity>
         where TEntity : IHardwareEntity
     {
-        TEntity Entity { get; set; }
-        string ReturnHardwareID();
+        TEntity Entity { get; }
+
+        string FetchHardwareId();
     }
 }

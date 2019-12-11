@@ -14,6 +14,14 @@ namespace Sample
     {
         static void Main()
         {
+            while (true)
+            {
+                Main2();
+            }
+        }
+
+        static void Main2()
+        {
             var titile = @"
    _____                           __   ______      __            
   / ___/_________  ____  ___  ____/ /  /_  __/___  / /_____  ____ 
@@ -33,14 +41,14 @@ namespace Sample
 
                 WindowsTokenBuilder wb = new WindowsTokenBuilder();
 
-                var hardwareProvider = new HardwareIDProvider(new HardDiskEntity());
-                var processorProvider = new HardwareIDProvider(new ProcessorEntity());
-                var biosProvider = new HardwareIDProvider(new BiosEntity());
+                var hardwareProvider = new HardwareIdProvider(new HardDiskEntity());
+                var processorProvider = new HardwareIdProvider(new ProcessorEntity());
+                var biosProvider = new HardwareIdProvider(new BiosEntity());
 
                 Console.WriteLine("Entities");
                 Console.WriteLine(new string('-', 20));
 
-                var scoped_token = wb.Build(new List<IHardwareIDProvider<IHardwareEntity>>() { hardwareProvider, processorProvider, biosProvider });
+                var scoped_token = wb.Build(new List<IHardwareIdProvider<IHardwareEntity>>() { hardwareProvider, processorProvider, biosProvider });
 
                 Console.WriteLine(new string('-', 20));
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -55,6 +63,8 @@ namespace Sample
             {
                 Console.WriteLine(mex);
             }
+
+            Console.CursorTop = 0;
         }
     }
 }

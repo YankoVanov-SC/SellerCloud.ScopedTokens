@@ -28,17 +28,18 @@ namespace UnitTests.Common
         {
         }
 
-        protected IList<IHardwareIDProvider<IHardwareEntity>> GetDefaultHardwareProviders()
+        protected IList<IHardwareIdProvider<IHardwareEntity>> GetDefaultHardwareProviders()
         {
-            return new List<IHardwareIDProvider<IHardwareEntity>>() { this.HddProvider, this.ProcessorProvider, this.BiosProvider };
+            return new List<IHardwareIdProvider<IHardwareEntity>>() { this.HddProvider, this.ProcessorProvider, this.BiosProvider };
         }
 
-        protected IHardwareIDProvider<IHardwareEntity> HddProvider => new HardwareIDProvider(new HardDiskEntity());
-        protected IHardwareIDProvider<IHardwareEntity> ProcessorProvider => new HardwareIDProvider(new HardDiskEntity());
-        protected IHardwareIDProvider<IHardwareEntity> BiosProvider => new HardwareIDProvider(new HardDiskEntity());
+        protected IHardwareIdProvider<IHardwareEntity> HddProvider => new HardwareIdProvider(new HardDiskEntity());
+        protected IHardwareIdProvider<IHardwareEntity> ProcessorProvider => new HardwareIdProvider(new HardDiskEntity());
+        protected IHardwareIdProvider<IHardwareEntity> BiosProvider => new HardwareIdProvider(new HardDiskEntity());
 
         protected static string GetActual(string hddSerial)
         {
+            // TODO: Extension method string.Sha256()
             string actual;
             using (var sha256 = SHA256.Create())
             {

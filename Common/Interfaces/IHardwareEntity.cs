@@ -2,7 +2,7 @@
 {
     public interface IHardwareEntity
     {
-        string ManagmentEntityID { get; }
+        string ManagmentEntityId { get; }
 
         string EntityKey { get; }
     }

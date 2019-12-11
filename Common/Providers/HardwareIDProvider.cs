@@ -6,33 +6,38 @@ using Common.Interfaces;
 
 namespace HardwareGenerator.Providers
 {
-    public class HardwareIDProvider : IHardwareIDProvider<IHardwareEntity>
+    public class HardwareIdProvider : IHardwareIdProvider<IHardwareEntity>
     {
-        protected string Query = "SELECT * FROM ";
+        public IHardwareEntity Entity { get; }
 
-        public IHardwareEntity Entity { get; set; }
-
-        public HardwareIDProvider(IHardwareEntity entity)
+        public HardwareIdProvider(IHardwareEntity entity)
         {
             this.Entity = entity;
         }
 
-        public virtual string ReturnHardwareID()
+        /// <exception cref="ManagementException" />
+        public virtual string FetchHardwareId()
         {
             try
             {
-                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher($"{Query} {this.Entity.ManagmentEntityID}"))
+                string query = $"SELECT {this.Entity.EntityKey} FROM {this.Entity.ManagmentEntityId}";
+
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
-                    ManagementObject mo = searcher.Get().OfType<ManagementObject>()?.FirstOrDefault();
-                    var r = mo?[this.Entity.EntityKey];
-                    return mo?[this.Entity.EntityKey]?.ToString().Trim();
+                    ManagementObjectCollection results = searcher.Get();
+                    ManagementObject result = results.OfType<ManagementObject>()?.FirstOrDefault();
+
+                    object value = result?[this.Entity.EntityKey];
+                    string normalized = $"{value}".Trim();
+
+                    return normalized;
                 }
             }
             catch (ManagementException mex)
             {
                 throw mex;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

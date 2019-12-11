@@ -48,10 +48,10 @@
     <Compile Include="HardwareEntities\HardDiskEntity.cs" />
     <Compile Include="HardwareEntities\ProcessorEntity.cs" />
     <Compile Include="Interfaces\IHardwareEntity.cs" />
-    <Compile Include="Interfaces\IHardwareIDProvider.cs" />
+    <Compile Include="Interfaces\IHardwareIdProvider.cs" />
     <Compile Include="Interfaces\ITokenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\HardwareIDProvider.cs" />
+    <Compile Include="Providers\HardwareIdProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
