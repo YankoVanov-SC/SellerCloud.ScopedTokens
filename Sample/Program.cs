@@ -24,20 +24,8 @@ namespace Sample
 
         static void DumpToken()
         {
-            var titile = @"
-   _____                           __   ______      __            
-  / ___/_________  ____  ___  ____/ /  /_  __/___  / /_____  ____ 
-  \__ \/ ___/ __ \/ __ \/ _ \/ __  /    / / / __ \/ //_/ _ \/ __ \
- ___/ / /__/ /_/ / /_/ /  __/ /_/ /    / / / /_/ / ,< /  __/ / / /
-/____/\___/\____/ .___/\___/\__,_/    /_/  \____/_/|_|\___/_/ /_/ 
-               /_/                                                
-";
             try
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(titile);
-                Console.ResetColor();
-
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
 
@@ -49,6 +37,10 @@ namespace Sample
 
                 Console.WriteLine("Entities");
                 Console.WriteLine(new string('-', 20));
+
+                Console.WriteLine($"{nameProvider}: {nameProvider.FetchHardwareId()}");
+                Console.WriteLine($"{baseBoardProvider}: {baseBoardProvider.FetchHardwareId()}");
+                Console.WriteLine($"{processorProvider}: {processorProvider.FetchHardwareId()}");
 
                 var scoped_token = wb.Build(new List<IHardwareIdProvider>() { nameProvider, baseBoardProvider, processorProvider });
 
