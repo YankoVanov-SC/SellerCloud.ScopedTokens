@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
-using Common.Builders;
-using Common.Interfaces;
 
-using HardwareGenerator.HardwareEntities;
+using Common.Builders;
+using Common.HardwareEntities;
+using Common.Interfaces;
+using Common.Providers;
+
 using HardwareGenerator.Providers;
 
 namespace Sample
@@ -41,14 +43,14 @@ namespace Sample
 
                 WindowsTokenBuilder wb = new WindowsTokenBuilder();
 
-                var hardwareProvider = new HardwareIdProvider(new HardDiskEntity());
+                var nameProvider = new MachineNameIdProvider();
+                var baseBoardProvider = new HardwareIdProvider(new BaseBoardEntity());
                 var processorProvider = new HardwareIdProvider(new ProcessorEntity());
-                var biosProvider = new HardwareIdProvider(new BiosEntity());
 
                 Console.WriteLine("Entities");
                 Console.WriteLine(new string('-', 20));
 
-                var scoped_token = wb.Build(new List<IHardwareIdProvider>() { hardwareProvider, processorProvider, biosProvider });
+                var scoped_token = wb.Build(new List<IHardwareIdProvider>() { nameProvider, baseBoardProvider, processorProvider });
 
                 Console.WriteLine(new string('-', 20));
                 Console.ForegroundColor = ConsoleColor.Green;

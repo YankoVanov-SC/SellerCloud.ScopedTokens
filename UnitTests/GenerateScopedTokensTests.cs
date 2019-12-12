@@ -14,11 +14,11 @@ namespace UnitTests
         [TestMethod]
         public void GenerateScopedTokenWithDefaultProvidersShouldReturnValidToken()
         {
-            var hddSerial = this.HddProvider.FetchHardwareId();
+            var baseBoardSerial = this.BaseBoardProvider.FetchHardwareId();
             var processId = this.ProcessorProvider.FetchHardwareId();
-            var biosSerial = this.BiosProvider.FetchHardwareId();
+            var machineName = this.MachineNameProvider.FetchHardwareId();
 
-            string actual = GetActual($"{hddSerial}{processId}{biosSerial}");
+            string actual = GetActual($"{baseBoardSerial}{processId}{machineName}");
 
             var result = this.TokenBuilder.Build(GetDefaultHardwareProviders());
             Assert.IsNotNull(result);
@@ -26,14 +26,14 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GenerateScopedTokenWithHardDiskProvidersShouldReturnValidToken()
+        public void GenerateScopedTokenWithBaseBoardProvidersShouldReturnValidToken()
         {
 
-            var hddSerial = this.HddProvider.FetchHardwareId();
+            var baseBoardProvider = this.BaseBoardProvider.FetchHardwareId();
 
-            string actual = GetActual(hddSerial);
+            string actual = GetActual(baseBoardProvider);
 
-            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider<IHardwareEntity>>() { this.HddProvider });
+            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider>() { this.BaseBoardProvider });
             Assert.IsNotNull(result);
             Assert.AreEqual(result, actual);
         }
@@ -45,7 +45,7 @@ namespace UnitTests
 
             string actual = GetActual(processId);
 
-            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider<IHardwareEntity>>() { this.ProcessorProvider });
+            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider>() { this.ProcessorProvider });
             Assert.IsNotNull(result);
             Assert.AreEqual(result, actual);
         }
@@ -53,11 +53,11 @@ namespace UnitTests
         [TestMethod]
         public void GenerateScopedTokenWithBiosProvidersShouldReturnValidToken()
         {
-            var biosSerial = this.BiosProvider.FetchHardwareId();
+            var machineName = this.MachineNameProvider.FetchHardwareId();
 
-            string actual = GetActual(biosSerial);
+            string actual = GetActual(machineName);
 
-            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider<IHardwareEntity>>() { this.BiosProvider });
+            var result = this.TokenBuilder.Build(new List<IHardwareIdProvider>() { this.MachineNameProvider });
             Assert.IsNotNull(result);
             Assert.AreEqual(result, actual);
         }

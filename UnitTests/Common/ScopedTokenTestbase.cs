@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Common.Builders;
+using Common.Extensions;
+using Common.HardwareEntities;
 using Common.Interfaces;
+using Common.Providers;
 
-using HardwareGenerator.HardwareEntities;
 using HardwareGenerator.Providers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,24 +27,18 @@ namespace UnitTests.Common
         {
         }
 
-        protected IList<IHardwareIdProvider<IHardwareEntity>> GetDefaultHardwareProviders()
+        protected IList<IHardwareIdProvider> GetDefaultHardwareProviders()
         {
-            return new List<IHardwareIdProvider<IHardwareEntity>>() { this.HddProvider, this.ProcessorProvider, this.BiosProvider };
+            return new List<IHardwareIdProvider>() { this.BaseBoardProvider, this.ProcessorProvider, this.MachineNameProvider };
         }
 
-        protected IHardwareIdProvider<IHardwareEntity> HddProvider => new HardwareIdProvider(new HardDiskEntity());
-        protected IHardwareIdProvider<IHardwareEntity> ProcessorProvider => new HardwareIdProvider(new HardDiskEntity());
-        protected IHardwareIdProvider<IHardwareEntity> BiosProvider => new HardwareIdProvider(new HardDiskEntity());
+        protected IHardwareIdProvider BaseBoardProvider => new HardwareIdProvider(new BaseBoardEntity());
+        protected IHardwareIdProvider ProcessorProvider => new HardwareIdProvider(new ProcessorEntity());
+        protected IHardwareIdProvider MachineNameProvider => new MachineNameIdProvider();
 
         protected static string GetActual(string hddSerial)
         {
-            // TODO: Extension method string.Sha256()
-            string actual;
-            using (var sha256 = SHA256.Create())
-            {
-                actual = Convert.ToBase64String(sha256.ComputeHash((Encoding.UTF8.GetBytes(hddSerial))));
-            };
-            return actual;
+            return hddSerial.HashWithSHA256();
         }
     }
 }

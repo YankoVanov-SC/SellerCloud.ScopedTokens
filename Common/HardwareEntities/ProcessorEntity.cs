@@ -1,6 +1,6 @@
 ﻿using Common.Interfaces;
 
-namespace HardwareGenerator.HardwareEntities
+namespace Common.HardwareEntities
 {
     public class ProcessorEntity : IHardwareEntity
     {
